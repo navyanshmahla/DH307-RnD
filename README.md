@@ -1,4 +1,5 @@
 # RnD Project
+The project is supervised by Prof. Kshitij Jadhav and Prof. Ganesh Ramakrishnan in DH307 offered by the KCDH dept. at IIT-Bombay. Details about the project are listed below:
 
 ## Diffusion Models for medical data Augmentation in Federated learning setting for preserving privacy
 ### Abstract:
