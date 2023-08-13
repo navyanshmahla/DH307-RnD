@@ -34,7 +34,11 @@ git clone https://github.com/martinarjovsky/WassersteinGAN/blob/master/main.py
 ```
 Add the image dataset folder to this and run the following command, to know more about the flags, see the ```generate.py``` file!
 
-Command to run:
+**Old** Command to run:
 ```bash
 python3 main.py --dataset folder --dataroot Dataset --cuda --workers 20 --niter 10000
+```
+**New** Command to run:
+```bash
+python3 main.py --datasetA folder --datasetB folder --datarootA Dataset-A --datarootB Dataset-B --cuda --workers 20 --imageSize 128 --niter1 300 --niter2 4000 --num_classes 2 --num_clients 2
 ```
