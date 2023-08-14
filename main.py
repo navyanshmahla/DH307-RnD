@@ -409,7 +409,7 @@ if __name__=="__main__":
 
                 errG+= torch.mean(torch.square(torch.mean(features,dim=-1)-torch.stack([avg_features_list[i][label.item()]
                                                                                       for label in fake_labels])))
-                errG.backward(one)
+                errG.backward(one, retain_graph=True)
                 optimizerG.step()
                 gen_iterations += 1
 
