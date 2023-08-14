@@ -293,7 +293,7 @@ if __name__=="__main__":
                     fake_labels=Variable(torch.LongTensor(np.random.randint(0, num_classes, batchSize))).cuda()
                     fake = Variable(netG.main(netG.forward(noisev,fake_labels)).data)
                     inputv = fake
-                    print("Shape of fake tensor is: ",fake.shape)
+                    #print("Shape of fake tensor is: ",fake.shape)
                     errD_fake = netD(inputv,fake_labels)
                     errD_fake.backward(mone)
                     errD = errD_real - errD_fake
@@ -321,7 +321,7 @@ if __name__=="__main__":
                 if gen_iterations % 100 == 0:
                     real_cpu = real_cpu.mul(0.5).add(0.5)
                     vutils.save_image(real_cpu, f'{opt.experiment+str(i)}/real_samples.png')
-                    fake = netG(Variable(fixed_noise, volatile=True),fake_labels)
+                    fake = netG.main(netG(Variable(fixed_noise, volatile=True),fake_labels))
                     fake.data = fake.data.mul(0.5).add(0.5)
                     vutils.save_image(fake.data, f'{opt.experiment+str(i)}/fake_samples_{gen_iterations}.png')
 
@@ -332,7 +332,9 @@ if __name__=="__main__":
                 torch.save(netD.state_dict(), f'{opt.experiment+str(i)}/netD_epoch_{epoch}.pth')
 
 #codistillation
-    gen_iterations=0
+    avg_features_list=[avg_feature_rep(j, gen_models, 2,10) for j in range(num_clients)]
+    gen_iterations = 0
+    
     for epoch in range(opt.niter2):
         for i in range(num_clients):
             data_iter = iter(dataloaders[i])
