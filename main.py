@@ -418,7 +418,7 @@ if __name__=="__main__":
                 if gen_iterations % 100 == 0:
                     real_cpu = real_cpu.mul(0.5).add(0.5)
                     vutils.save_image(real_cpu, f'{opt.experiment+str(i)}/real_samples.png')
-                    fake = netG(Variable(fixed_noise, volatile=True),fake_labels)
+                    fake = netG.main(netG(Variable(fixed_noise, volatile=True),fake_labels))
                     fake.data = fake.data.mul(0.5).add(0.5)
                     vutils.save_image(fake.data, f'{opt.experiment+str(i)}/fake_samples_{gen_iterations}.png')
 
