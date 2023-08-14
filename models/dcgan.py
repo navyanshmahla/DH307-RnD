@@ -109,9 +109,9 @@ class DCGAN_G(nn.Module):
                             nn.ReLU(True))
         self.features=main
         main=nn.Sequential()
-        main.add_module('final:{0}-{1}:convt'.format(cngf, nz),
-                        nn.ConvTranspose2d(cngf, nz, 4, 2, 1, bias=False))
-        main.add_module('final:{0}:tanh'.format(nz),
+        main.add_module('final:{0}-{1}:convt'.format(cngf, nc),
+                        nn.ConvTranspose2d(cngf, nc, 4, 2, 1, bias=False))
+        main.add_module('final:{0}:tanh'.format(nc),
                         nn.Tanh())
         self.main = main
 
@@ -178,7 +178,7 @@ class DCGAN_D_nobn(nn.Module):
         return output.view(1)
 
 class DCGAN_G_nobn(nn.Module):
-    def __init__(self, isize, nz, num_classes,c, ngf, ngpu, n_extra_layers=0):
+    def __init__(self, isize, nz, num_classes,nc, ngf, ngpu, n_extra_layers=0):
         super(DCGAN_G, self).__init__()
         self.ngpu = ngpu
         self.num_classes=num_classes
@@ -214,9 +214,9 @@ class DCGAN_G_nobn(nn.Module):
                             nn.ReLU(True))
         self.features=main
         main=nn.Sequential()
-        main.add_module('final:{0}-{1}:convt'.format(cngf, nz),
-                        nn.ConvTranspose2d(cngf, nz, 4, 2, 1, bias=False))
-        main.add_module('final:{0}:tanh'.format(nz),
+        main.add_module('final:{0}-{1}:convt'.format(cngf, nc),
+                        nn.ConvTranspose2d(cngf, nc, 4, 2, 1, bias=False))
+        main.add_module('final:{0}:tanh'.format(nc),
                         nn.Tanh())
         self.main = main
 
