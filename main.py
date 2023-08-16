@@ -248,7 +248,9 @@ if __name__=="__main__":
             netD=disc_models[i]
             netG=gen_models[i]
             optimizerD=disc_optimizers[i]
-            optimizerG=gen_optimizers[i]
+            if not opt.adam:
+                optimizerG=gen_optimizers[i]    
+            
             while count < len(dataloaders[i]):
                 ############################
                 # (1) Update D network
@@ -418,7 +420,7 @@ if __name__=="__main__":
                 if gen_iterations % 100 == 0:
                     real_cpu = real_cpu.mul(0.5).add(0.5)
                     vutils.save_image(real_cpu, f'{opt.experiment+str(i)}/real_samples.png')
-                    fake = netG.main(netG(Variable(fixed_noise, volatile=True),fake_labels))
+                    fake = netG.main(netG(Variable(fixed_noise, volatile=True),fake_labels))  #fake = netG.main(netG(Variable(fixed_noise, volatile=True),fake_labels))
                     fake.data = fake.data.mul(0.5).add(0.5)
                     vutils.save_image(fake.data, f'{opt.experiment+str(i)}/fake_samples_{gen_iterations}.png')
 
