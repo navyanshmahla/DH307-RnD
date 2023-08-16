@@ -54,7 +54,7 @@ if __name__=="__main__":
     parser.add_argument('--ngf', type=int, default=64)
     parser.add_argument('--ndf', type=int, default=64)
     parser.add_argument('--niter1', type=int, default=25, help='number of epochs to train for burnout')
-    parser.add_argument('--niter2', type=int, default=25, help='number of epochs to train for codistillation')
+    #parser.add_argument('--niter2', type=int, default=25, help='number of epochs to train for codistillation')
     parser.add_argument('--num_classes', type=int, default=25, help='number of classes in data')
     parser.add_argument('--num_clients', type=int, default=25, help='number of clients')
     parser.add_argument('--lrD', type=float, default=0.00005, help='learning rate for Critic, default=0.00005')
@@ -233,7 +233,7 @@ if __name__=="__main__":
     # setup optimizer
     if opt.adam:
         disc_optimizers = [optim.Adam(model.parameters(), lr=opt.lrD, betas=(opt.beta1, 0.999)) for model in disc_models]
-        optimizerG = [optim.Adam(model.parameters(), lr=opt.lrG, betas=(opt.beta1, 0.999)) for model in gen_models ]
+        gen_optimizers = [optim.Adam(model.parameters(), lr=opt.lrG, betas=(opt.beta1, 0.999)) for model in gen_models ]
     else:
         disc_optimizers = [optim.RMSprop(model.parameters(), lr = opt.lrD) for model in disc_models]
         gen_optimizers = [optim.RMSprop(model.parameters(), lr = opt.lrG) for model in gen_models]
@@ -248,8 +248,8 @@ if __name__=="__main__":
             netD=disc_models[i]
             netG=gen_models[i]
             optimizerD=disc_optimizers[i]
-            if not opt.adam:
-                optimizerG=gen_optimizers[i]    
+            
+            optimizerG=gen_optimizers[i]    
             
             while count < len(dataloaders[i]):
                 ############################
@@ -332,7 +332,7 @@ if __name__=="__main__":
                 # do checkpointing
                 torch.save(netG.state_dict(), f'{opt.experiment+str(i)}/netG_epoch_{epoch}.pth')
                 torch.save(netD.state_dict(), f'{opt.experiment+str(i)}/netD_epoch_{epoch}.pth')
-
+    
 #codistillation
     avg_features_list=[avg_feature_rep(j, gen_models, 2,10) for j in range(num_clients)]
     gen_iterations = 0
@@ -430,3 +430,4 @@ if __name__=="__main__":
                 torch.save(netG.state_dict(), f'{opt.experiment+str(i)}/netG_epoch_{epoch}.pth')
                 torch.save(netD.state_dict(), f'{opt.experiment+str(i)}/netD_epoch_{epoch}.pth')
         avg_features_list=[avg_feature_rep(j,gen_models,2,10) for j in range(num_clients)]
+    
