@@ -40,5 +40,6 @@ python3 main.py --dataset folder --dataroot Dataset --cuda --workers 20 --niter 
 ```
 **New** Command to run:
 ```bash
-python3 main.py --datasetA folder --datasetB folder --datarootA Dataset-A --datarootB Dataset-B --cuda --workers 20 --imageSize 128 --niter1 300 --niter2 4000 --num_classes 2 --num_clients 2
+python3 main.py --datasetA folder --datasetB folder --datarootA Dataset-A --datarootB Dataset-B --cuda --workers 20 --imageSize 128 --niter1 4000 --niter2 10000 --lrD 1e-5 --lrG 1e-5 --num_classes 2 --num_clients 2 --adam 2>&1 | tee training_log.txt
+
 ```
